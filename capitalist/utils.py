@@ -46,3 +46,12 @@ def retry(exceptions, tries=4, delay=3, backoff=2, logger=None):
 
 def guess_card_type(inn_bin: str):
     pass
+
+
+def generate_payload(exclude=None, **kwargs):
+    if exclude is None:
+        exclude = []
+    return {key: value for key, value in kwargs.items() if
+            key not in exclude + ['self', 'cls']
+            and value is not None
+            and not key.startswith('_')}
