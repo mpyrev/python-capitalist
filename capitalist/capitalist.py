@@ -107,3 +107,6 @@ class Capitalist:
         history = self.secure_request('get_documents_history_ext', data)
 
         return [DocumentHistory.parse_json(record) for record in history["data"]["history"]]
+
+    def get_accounts(self):
+        return self.secure_request('get_accounts')
