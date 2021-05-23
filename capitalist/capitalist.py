@@ -96,7 +96,7 @@ class Capitalist:
         }
         return self.secure_request('get_batch_info', data)
 
-    def get_documents_history(self, account, period_from=None, period_to=None, document_state=None, limit=None,
+    def get_documents_history(self, account=None, period_from=None, period_to=None, document_state=None, limit=None,
                               page=None,
                               external_account=None):
         """
