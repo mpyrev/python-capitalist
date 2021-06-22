@@ -122,6 +122,24 @@ class CardRussianPayment(BasePayment):
         return [arg for arg in args if arg is not None]
 
 
+class Card2CardRussianPayment(BasePayment):
+    __slots__ = ['card_number', 'amount', 'currency', 'internal_id', 'destination']
+
+    def __init__(self, card_number, amount, currency, internal_id, destination):
+        self.card_number = card_number
+        self.amount = amount
+        self.currency = currency
+        self.internal_id = internal_id
+        self.destination = destination
+
+    def get_codename(self):
+        return 'RUCARDP2P_DYN'
+
+    def get_payment_args(self):
+        args = [self.card_number, self.amount, self.currency, self.internal_id, self.destination]
+        return [arg for arg in args if arg is not None]
+
+
 class CardUkrainianPayment(BasePayment):
     __slots__ = ['card_number', 'amount', 'currency', 'internal_id', 'destination']
 
