@@ -301,3 +301,22 @@ class Tele2Payment(BasePayment):
     def get_payment_args(self):
         args = [self.number, self.amount, self.currency, self.internal_id, self.destination]
         return [arg for arg in args if arg is not None]
+
+
+class DocumentHistory(Model):
+    __slots__ = ['number', 'date', 'state', 'corrDetails', 'comment', 'amount', 'description', 'state_code']
+
+    def __init__(self, number, date, state, corrDetails, comment, amount, description, state_code):
+        self.number = number
+        self.date = date
+        self.state = state
+        self.corrDetails = corrDetails
+        self.comment = comment
+        self.amount = amount
+        self.description = description
+        self.state_code = state_code
+
+    @classmethod
+    def parse_json(cls, json_data, **kwargs):
+        args = [json_data[slot] for slot in cls.__slots__]
+        return cls(*args)

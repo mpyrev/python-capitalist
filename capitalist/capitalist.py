@@ -3,11 +3,11 @@ from pathlib import Path
 from typing import Union
 
 from capitalist.exceptions import ResponseException
-from capitalist.models import Account, CurrencyRate
+from capitalist.models import Account, CurrencyRate, DocumentHistory
 from .auth import Authenticator, Signer
 from .exceptions import RequestException, ImproperlyConfigured
 from .request_executor import RequestExecutor
-from .utils import retry
+from .utils import retry, generate_payload
 
 
 class Capitalist:
@@ -95,3 +95,18 @@ class Capitalist:
             'start_offset': start_offset,
         }
         return self.secure_request('get_batch_info', data)
+
+    def get_documents_history(self, account=None, period_from=None, period_to=None, document_state=None, limit=None,
+                              page=None,
+                              external_account=None):
+        """
+        https://capitalist.net/developers/api/page/get_documents_history_ext
+        """
+
+        data = generate_payload(**locals())
+        history = self.secure_request('get_documents_history_ext', data)
+
+        return [DocumentHistory.parse_json(record) for record in history["data"]["history"]]
+
+    def get_accounts(self):
+        return self.secure_request('get_accounts')
